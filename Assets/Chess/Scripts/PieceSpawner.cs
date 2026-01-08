@@ -1,8 +1,11 @@
+using System.Collections;
 using UnityEngine;
 
 public class PieceSpawner : MonoBehaviour
 {
   [SerializeField] private Transform pieceRoot;
+  [SerializeField] private RectTransform gridRoot;
+
   [Header("White Pieces")]
   [SerializeField] private GameObject whiteRook;
   [SerializeField] private GameObject whiteKnight;
@@ -20,8 +23,13 @@ public class PieceSpawner : MonoBehaviour
   [SerializeField] private GameObject blackQueen;
   [SerializeField] private GameObject blackPawn;
 private const int BoardSize = 8;
-  private void Start()
+  private IEnumerator Start()
   {
+    // Waits until chess tiles have been fully populated
+    while (gridRoot.childCount < BoardSize * BoardSize)
+    {
+        yield return null;
+    }
     PopulateBoard();
   }
 
@@ -32,8 +40,8 @@ private const int BoardSize = 8;
     SpawnBackrow(0, true);
 
     // Black Pieces
-    SpawnPawns(7, false);
-    SpawnBackrow(8, false);
+    SpawnPawns(6, false);
+    SpawnBackrow(7, false);
   }
 
   private void SpawnPawns(int row, bool isWhite)
@@ -46,25 +54,39 @@ private const int BoardSize = 8;
 
   private void SpawnBackrow(int row, bool isWhite)
   {
-    for (int col = 0; col < BoardSize; col++)
-    {
-        SpawnPiece((isWhite? whiteRook : blackRook), row, 1);
-        SpawnPiece((isWhite? whiteKnight : blackKnight), row, 2);
-        SpawnPiece((isWhite? whiteBishop : blackBishop), row, 3);
+        SpawnPiece((isWhite? whiteRook : blackRook), row, 0);
+        SpawnPiece((isWhite? whiteKnight : blackKnight), row, 1);
+        SpawnPiece((isWhite? whiteBishop : blackBishop), row, 2);
 
-        SpawnPiece((isWhite? whiteQueen : blackQueen), row, 4);
-        SpawnPiece((isWhite? whiteKing : blackKing), row, 5);
+        SpawnPiece((isWhite? whiteQueen : blackQueen), row, 3);
+        SpawnPiece((isWhite? whiteKing : blackKing), row, 4);
 
-        SpawnPiece((isWhite? whiteBishop : blackBishop), row, 6);
-        SpawnPiece((isWhite? whiteKnight : blackKnight), row, 7);
-        SpawnPiece((isWhite? whiteRook : blackRook), row, 8);
-    }
+        SpawnPiece((isWhite? whiteBishop : blackBishop), row, 5);
+        SpawnPiece((isWhite? whiteKnight : blackKnight), row, 6);
+        SpawnPiece((isWhite? whiteRook : blackRook), row, 7);
   }
 
   private void SpawnPiece(GameObject prefab, int row, int col)
   {
     GameObject piece = Instantiate(prefab, pieceRoot);
 
-    piece.transform.localPosition = Vector3.zero; // Needs rework to align to grid/cell
+    RectTransform pieceRt = piece.GetComponent<RectTransform>();
+    RectTransform cellRt = GetCellRect(row, col);
+
+    Vector3 worldCenter = cellRt.TransformPoint(cellRt.rect.center);
+    Vector3 localInPieceRoot = pieceRoot.InverseTransformPoint(worldCenter);
+
+    pieceRt.anchorMin = new Vector2(0.5f, 0.5f);
+    pieceRt.anchorMax = new Vector2(0.5f, 0.5f);
+    pieceRt.pivot = new Vector2(0.5f, 0.5f);
+
+    pieceRt.localPosition = localInPieceRoot;
   }
+
+  private RectTransform GetCellRect(int row, int col)
+  {
+    int index = (row * BoardSize) + col;
+    return (RectTransform)gridRoot.GetChild(index);
+  }
+
 }
