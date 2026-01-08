@@ -709,6 +709,63 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.AspectRatioFitter
   m_AspectMode: 3
   m_AspectRatio: 1
+--- !u!1001 &1440184508599008927
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 6289391336472455462, guid: 6430b0b3ef3704811b1622b99fee5e7f, type: 3}
+      propertyPath: m_Name
+      value: ChessPiece
+      objectReference: {fileID: 0}
+    - target: {fileID: 8707346026629945360, guid: 6430b0b3ef3704811b1622b99fee5e7f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 347.0778
+      objectReference: {fileID: 0}
+    - target: {fileID: 8707346026629945360, guid: 6430b0b3ef3704811b1622b99fee5e7f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 261.29468
+      objectReference: {fileID: 0}
+    - target: {fileID: 8707346026629945360, guid: 6430b0b3ef3704811b1622b99fee5e7f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8707346026629945360, guid: 6430b0b3ef3704811b1622b99fee5e7f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8707346026629945360, guid: 6430b0b3ef3704811b1622b99fee5e7f, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8707346026629945360, guid: 6430b0b3ef3704811b1622b99fee5e7f, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8707346026629945360, guid: 6430b0b3ef3704811b1622b99fee5e7f, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8707346026629945360, guid: 6430b0b3ef3704811b1622b99fee5e7f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8707346026629945360, guid: 6430b0b3ef3704811b1622b99fee5e7f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8707346026629945360, guid: 6430b0b3ef3704811b1622b99fee5e7f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 6430b0b3ef3704811b1622b99fee5e7f, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -718,3 +775,4 @@ SceneRoots:
   - {fileID: 484351606}
   - {fileID: 1024223861}
   - {fileID: 1547200964}
+  - {fileID: 1440184508599008927}
