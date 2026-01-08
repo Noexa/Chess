@@ -816,18 +816,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PieceSpawner
   pieceRoot: {fileID: 291980667}
-  whiteRook: {fileID: 0}
-  whiteKnight: {fileID: 0}
-  whiteBishop: {fileID: 0}
-  whiteKing: {fileID: 0}
-  whiteQueen: {fileID: 0}
-  whitePawn: {fileID: 0}
-  blackRook: {fileID: 0}
-  blackKnight: {fileID: 0}
-  blackBishop: {fileID: 0}
-  blackKing: {fileID: 0}
-  blackQueen: {fileID: 0}
-  blackPawn: {fileID: 0}
+  whiteRook: {fileID: 8721328884847379795, guid: 55d23435b6b2740a4bcd5e545744a639, type: 3}
+  whiteKnight: {fileID: 4677161873191121415, guid: 28c999e15e0fa42abaa8fcd4b898a17b, type: 3}
+  whiteBishop: {fileID: 7836468677231881383, guid: 0eb94f8f434fb4de1bcf8263e7fb9f91, type: 3}
+  whiteKing: {fileID: 2695707073472782549, guid: 662a04286dc1846f1a0b135bb1ae21df, type: 3}
+  whiteQueen: {fileID: 1050176672133822636, guid: adffd6c155e0e4d8aa75cf127edd87ba, type: 3}
+  whitePawn: {fileID: 8050194386453959195, guid: 93b435e03be614c6eb7aaecc092f9f6d, type: 3}
+  blackRook: {fileID: 8721328884847379795, guid: 55d23435b6b2740a4bcd5e545744a639, type: 3}
+  blackKnight: {fileID: 4677161873191121415, guid: 28c999e15e0fa42abaa8fcd4b898a17b, type: 3}
+  blackBishop: {fileID: 7836468677231881383, guid: 0eb94f8f434fb4de1bcf8263e7fb9f91, type: 3}
+  blackKing: {fileID: 2695707073472782549, guid: 662a04286dc1846f1a0b135bb1ae21df, type: 3}
+  blackQueen: {fileID: 1050176672133822636, guid: adffd6c155e0e4d8aa75cf127edd87ba, type: 3}
+  blackPawn: {fileID: 8050194386453959195, guid: 93b435e03be614c6eb7aaecc092f9f6d, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
