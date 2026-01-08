@@ -25,9 +25,9 @@ public class ChessBoardUI : MonoBehaviour
             {
                 GameObject tile = Instantiate(tilePrefab, transform);
                 Image image = tile.GetComponent<Image>();
-                bool isLight = (row+col) % 2 == 0;
-
-                image.color = isLight? lightColor : darkColor;
+                // bool isLight = (row+col) % 2 == 0;
+                // image.color = isLight? lightColor : darkColor;
+                // As of 1/8/26 color is antiquated. Board sprite is now used, but this will be left in for debugging
 
             }
         }
