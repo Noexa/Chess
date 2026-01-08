@@ -1,9 +1,11 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BoardGridSizer : MonoBehaviour
+[RequireComponent(typeof(GridLayoutGroup))]
+public sealed class BoardGridSizer : MonoBehaviour
 {
-    private const int BoardSize = 0;
+    private const int BoardSize = 8;
+
     private GridLayoutGroup _grid;
     private RectTransform _rect;
 
@@ -11,12 +13,36 @@ public class BoardGridSizer : MonoBehaviour
     {
         _grid = GetComponent<GridLayoutGroup>();
         _rect = GetComponent<RectTransform>();
+
+        ConfigureGrid();
+        ResizeCells();
     }
 
-    private void OnRectTransformDimensionChange()
+    private void OnRectTransformDeimensionsChange()
     {
-        float size = _rect.rect.width;
-        float cell = Mathf.Floor(size / BoardSize);
-        _grid.cellSize = new Vector2(cell, cell);
+        ResizeCells();
+    }
+
+    private void ConfigureGrid()
+    {
+        _grid.startCorner = GridLayoutGroup.Corner.UpperLeft;
+        _grid.startAxis = GridLayoutGroup.Axis.Horizontal;
+        _grid.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
+        _grid.constraintCount = BoardSize;
+        _grid.spacing = Vector2.zero;
+        _grid.padding = new RectOffset();
+    }
+
+    private void ResizeCells()
+    {
+        if (_rect.rect.width <= 0f || _rect.rect.height <= 0f) // Unity may call function with invalid size even outside of program start. Do not move
+        {
+            return;
+        }
+
+        float boardSize = Mathf.Min(_rect.rect.width, _rect.rect.height);
+        float cellSize = Mathf.Floor( boardSize / BoardSize);
+
+        _grid.cellSize = new Vector2(cellSize, cellSize);
     }
 }
