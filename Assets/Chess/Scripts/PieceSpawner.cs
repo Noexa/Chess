@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PieceSpawner : MonoBehaviour
 {
@@ -30,6 +31,9 @@ private const int BoardSize = 8;
     {
         yield return null;
     }
+
+    Canvas.ForceUpdateCanvases();
+    LayoutRebuilder.ForceRebuildLayoutImmediate(gridRoot);
     PopulateBoard();
   }
 
