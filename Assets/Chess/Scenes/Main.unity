@@ -868,6 +868,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PieceSpawner
   pieceRoot: {fileID: 291980667}
   gridRoot: {fileID: 1658488705}
+  pieceScale: 0.95
   whiteRook: {fileID: 8721328884847379795, guid: 55d23435b6b2740a4bcd5e545744a639, type: 3}
   whiteKnight: {fileID: 4677161873191121415, guid: 28c999e15e0fa42abaa8fcd4b898a17b, type: 3}
   whiteBishop: {fileID: 7836468677231881383, guid: 0eb94f8f434fb4de1bcf8263e7fb9f91, type: 3}
