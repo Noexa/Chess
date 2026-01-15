@@ -119,6 +119,41 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &291980666
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 291980667}
+  m_Layer: 5
+  m_Name: PieceRoot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &291980667
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 291980666}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1129805925}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &484351604
 GameObject:
   m_ObjectHideFlags: 0
@@ -518,19 +553,13 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1658488705}
+  - {fileID: 291980667}
   m_Father: {fileID: 1981448562}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-<<<<<<< Updated upstream
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.000030517578, y: 0.000030517578}
-  m_SizeDelta: {x: 800, y: 800}
-=======
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
->>>>>>> Stashed changes
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1129805926
 MonoBehaviour:
@@ -552,7 +581,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 1763014460331064234, guid: d087bbf1e9f1844a5a76571177a7b84e, type: 3}
+  m_Sprite: {fileID: 2172062010839385548, guid: 2d90b79c781474b8e82015b561e61366, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -698,8 +727,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.000030517578}
-  m_SizeDelta: {x: -700, y: -700}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1658488706
 MonoBehaviour:
@@ -761,6 +790,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1981448562}
+  - component: {fileID: 1981448563}
   m_Layer: 5
   m_Name: BoardRoot
   m_TagString: Untagged
@@ -786,8 +816,34 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 800, y: 800}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1981448563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1981448561}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 145fce771405641efbd3323b25d26056, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PieceSpawner
+  pieceRoot: {fileID: 291980667}
+  gridRoot: {fileID: 1658488705}
+  whiteRook: {fileID: 8721328884847379795, guid: 55d23435b6b2740a4bcd5e545744a639, type: 3}
+  whiteKnight: {fileID: 4677161873191121415, guid: 28c999e15e0fa42abaa8fcd4b898a17b, type: 3}
+  whiteBishop: {fileID: 7836468677231881383, guid: 0eb94f8f434fb4de1bcf8263e7fb9f91, type: 3}
+  whiteKing: {fileID: 2695707073472782549, guid: 662a04286dc1846f1a0b135bb1ae21df, type: 3}
+  whiteQueen: {fileID: 1050176672133822636, guid: adffd6c155e0e4d8aa75cf127edd87ba, type: 3}
+  whitePawn: {fileID: 8050194386453959195, guid: 93b435e03be614c6eb7aaecc092f9f6d, type: 3}
+  blackRook: {fileID: 8721328884847379795, guid: 55d23435b6b2740a4bcd5e545744a639, type: 3}
+  blackKnight: {fileID: 4677161873191121415, guid: 28c999e15e0fa42abaa8fcd4b898a17b, type: 3}
+  blackBishop: {fileID: 7836468677231881383, guid: 0eb94f8f434fb4de1bcf8263e7fb9f91, type: 3}
+  blackKing: {fileID: 2695707073472782549, guid: 662a04286dc1846f1a0b135bb1ae21df, type: 3}
+  blackQueen: {fileID: 1050176672133822636, guid: adffd6c155e0e4d8aa75cf127edd87ba, type: 3}
+  blackPawn: {fileID: 8050194386453959195, guid: 93b435e03be614c6eb7aaecc092f9f6d, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
