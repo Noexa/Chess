@@ -2,10 +2,14 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class PieceSpawner : MonoBehaviour
 {
-  [SerializeField] private Transform pieceRoot;
+  [SerializeField] private RectTransform pieceRoot;
   [SerializeField] private RectTransform gridRoot;
+  
+  [Range(0.6f, 1.2f)]
+  [SerializeField] private float pieceScale = 0.95f;
 
   [Header("White Pieces")]
   [SerializeField] private GameObject whiteRook;
@@ -78,13 +82,19 @@ private const int BoardSize = 8;
     RectTransform cellRt = GetCellRect(row, col);
 
     Vector3 worldCenter = cellRt.TransformPoint(cellRt.rect.center);
-    Vector3 localInPieceRoot = pieceRoot.InverseTransformPoint(worldCenter);
-
+    Vector2 localInPieceRoot = (Vector2)pieceRoot.InverseTransformPoint(worldCenter);
+  
     pieceRt.anchorMin = new Vector2(0.5f, 0.5f);
     pieceRt.anchorMax = new Vector2(0.5f, 0.5f);
     pieceRt.pivot = new Vector2(0.5f, 0.5f);
 
-    pieceRt.localPosition = localInPieceRoot;
+    pieceRt.anchoredPosition = localInPieceRoot;
+
+    float side = Mathf.Min(cellRt.rect.width, cellRt.rect.height) * pieceScale;
+    pieceRt.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, side);
+    pieceRt.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, side);
+
+    pieceRt.SetAsLastSibling();
   }
 
   private RectTransform GetCellRect(int row, int col)
