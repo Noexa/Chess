@@ -2,14 +2,12 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-
 public class PieceSpawner : MonoBehaviour
 {
-  [SerializeField] private RectTransform pieceRoot;
   [SerializeField] private RectTransform gridRoot;
   
   [Range(0.6f, 1.2f)]
-  [SerializeField] private float pieceScale = 0.95f;
+  [SerializeField] private float pieceScale = 0.90f;
 
   [Header("White Pieces")]
   [SerializeField] private GameObject whiteRook;
@@ -43,13 +41,16 @@ private const int BoardSize = 8;
 
   private void PopulateBoard()
   {
+    bool white = true;
+    bool black = false;
+
     // White Pieces
-    SpawnPawns(1, true);
-    SpawnBackrow(0, true);
+    SpawnPawns(1, white);
+    SpawnBackrow(0, white);
 
     // Black Pieces
-    SpawnPawns(6, false);
-    SpawnBackrow(7, false);
+    SpawnPawns(6, black);
+    SpawnBackrow(7, black);
   }
 
   private void SpawnPawns(int row, bool isWhite)
@@ -76,20 +77,21 @@ private const int BoardSize = 8;
 
   private void SpawnPiece(GameObject prefab, int row, int col)
   {
-    GameObject piece = Instantiate(prefab, pieceRoot);
-
-    RectTransform pieceRt = piece.GetComponent<RectTransform>();
     RectTransform cellRt = GetCellRect(row, col);
 
-    Vector3 worldCenter = cellRt.TransformPoint(cellRt.rect.center);
-    Vector2 localInPieceRoot = (Vector2)pieceRoot.InverseTransformPoint(worldCenter);
+    GameObject piece = Instantiate(prefab);
+    RectTransform pieceRt = piece.GetComponent<RectTransform>();
+
+    pieceRt.SetParent(cellRt, false);
   
+    // Centers in cell
     pieceRt.anchorMin = new Vector2(0.5f, 0.5f);
     pieceRt.anchorMax = new Vector2(0.5f, 0.5f);
-    pieceRt.pivot = new Vector2(0.5f, 0.5f);
+    pieceRt.pivot     = new Vector2(0.5f, 0.5f);
+    pieceRt.anchoredPosition = Vector2.zero;
 
-    pieceRt.anchoredPosition = localInPieceRoot;
-
+    pieceRt.localScale = Vector3.one * 0.85f;
+    // Sizes piece relative to cell size
     float side = Mathf.Min(cellRt.rect.width, cellRt.rect.height) * pieceScale;
     pieceRt.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, side);
     pieceRt.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, side);
