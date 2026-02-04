@@ -88,3 +88,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de0a6dec13ab94896b9cec6af0bc2ffc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PieceView
+  type: 4
+  isWhite: 0
