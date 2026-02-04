@@ -16,5 +16,4 @@ public class PieceView : MonoBehaviour
         Row = row;
         Col = col;
     }
-
 }
