@@ -1,16 +1,25 @@
 using UnityEngine;
-using unityEngine.EventSystems;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
-
-//TODO: 
-// Add ClearHighlight & fix highlightImage functionality
 public class TileView : MonoBehaviour, IPointerClickHandler
 {
     public int Row {get; private set;}
     public int Col {get; private set;}
 
-    [SerializeField] private Image highlightImage; // BUGFIX: better way to highlight? Manually inserting this seems tedious
+    [SerializeField] private Image highlightImage;
     private GameController controller;
+    private void Awake()
+    {
+        if (highlightImage == null)
+        {
+            Transform t = transform.Find("Highlight");
+            if (t != null)
+            {
+                highlightImage = t.GetComponent<Image>();
+            }
+        }
+        SetHighlight(false);
+    }
 
     public void Init(int row, int col, GameController gameController)
     {
@@ -28,12 +37,16 @@ public class TileView : MonoBehaviour, IPointerClickHandler
         }
     }
 
-    public void SetHighlight(Color color)
+    public void SetHighlight(bool on)
     {
-        if (highlghtImage != null)
+        if (highlightImage == null)
         {
-            highlightImage.enabled = true;
-            highlightImage.color= color;
+            return;
+        }
+
+        if (highlightImage != null)
+        {
+            highlightImage.enabled = on;
         }
     }
 
