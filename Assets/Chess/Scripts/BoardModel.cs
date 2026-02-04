@@ -9,7 +9,7 @@ public class BoardModel
         squares[row, col] = piece;
     }
 
-    public GameObject GetPiece(int row, int col, GameObject piece)
+    public GameObject GetPiece(int row, int col)
     {
         return squares[row, col];
     }
@@ -17,6 +17,11 @@ public class BoardModel
     public bool IsOccupied(int row, int col)
     {
         return squares[row, col] != null;
+    }
+
+    public bool IsInbounds(int row, int col)
+    {
+        return (row >=0 && row <8 && col >=0 && col <8);
     }
 
     public void ClearSquare(int row, int col)
