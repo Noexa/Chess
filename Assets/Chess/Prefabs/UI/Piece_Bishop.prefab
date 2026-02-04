@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3821675197503931221}
   - component: {fileID: 8888098941384966589}
   - component: {fileID: 2178298887971981813}
+  - component: {fileID: 9067758533035089084}
   m_Layer: 5
   m_Name: Piece_Bishop
   m_TagString: Untagged
@@ -75,3 +76,15 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &9067758533035089084
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7836468677231881383}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de0a6dec13ab94896b9cec6af0bc2ffc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PieceView

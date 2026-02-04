@@ -99,12 +99,17 @@ private const int BoardSize = 8;
     pieceRt.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, side);
 
     pieceRt.SetAsLastSibling();
+
+    // Assign board-state
+    PieceView view = piece.GetComponent<PieceView>();
+    Debug.Assert(view != null, "Piece prefab is missing PieceView component");
+    view.Init(row, col);
   }
 
   private RectTransform GetCellRect(int row, int col)
   {
     int index = (row * BoardSize) + col;
-    return (RectTransform)gridRoot.GetChild(index);
+    return (RectTransform)gridRoot.GetChild(index); //GetChild returns a transform so a rect transform cast is needed
   }
 
 }
