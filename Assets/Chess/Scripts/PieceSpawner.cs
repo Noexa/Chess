@@ -26,7 +26,7 @@ public class PieceSpawner : MonoBehaviour
   [SerializeField] private GameObject blackQueen;
   [SerializeField] private GameObject blackPawn;
 private const int BoardSize = 8;
-  private IEnumerator Start()
+  public IEnumerator SpawnRoutine(BoardModel board)
   {
     // Waits until chess tiles have been fully populated
     while (gridRoot.childCount < BoardSize * BoardSize)
@@ -36,46 +36,46 @@ private const int BoardSize = 8;
 
     Canvas.ForceUpdateCanvases();
     LayoutRebuilder.ForceRebuildLayoutImmediate(gridRoot);
-    PopulateBoard();
+    PopulateBoard(board);
   }
 
-  private void PopulateBoard()
+  private void PopulateBoard(BoardModel board)
   {
     bool white = true;
     bool black = false;
 
     // White Pieces
-    SpawnPawns(1, white);
-    SpawnBackrow(0, white);
+    SpawnPawns(1, white, board);
+    SpawnBackrow(0, white, board);
 
     // Black Pieces
-    SpawnPawns(6, black);
-    SpawnBackrow(7, black);
+    SpawnPawns(6, black, board);
+    SpawnBackrow(7, black, board);
   }
 
-  private void SpawnPawns(int row, bool isWhite)
+  private void SpawnPawns(int row, bool isWhite, BoardModel board)
   {
     for (int col = 0; col < BoardSize; col++)
     {
-        SpawnPiece((isWhite? whitePawn : blackPawn), row, col);
+        SpawnPiece((isWhite? whitePawn : blackPawn), row, col, board);
     }
   }
 
-  private void SpawnBackrow(int row, bool isWhite)
+  private void SpawnBackrow(int row, bool isWhite, BoardModel board)
   {
-        SpawnPiece((isWhite? whiteRook : blackRook), row, 0);
-        SpawnPiece((isWhite? whiteKnight : blackKnight), row, 1);
-        SpawnPiece((isWhite? whiteBishop : blackBishop), row, 2);
+        SpawnPiece((isWhite? whiteRook : blackRook), row, 0, board);
+        SpawnPiece((isWhite? whiteKnight : blackKnight), row, 1, board);
+        SpawnPiece((isWhite? whiteBishop : blackBishop), row, 2, board);
 
-        SpawnPiece((isWhite? whiteQueen : blackQueen), row, 3);
-        SpawnPiece((isWhite? whiteKing : blackKing), row, 4);
+        SpawnPiece((isWhite? whiteQueen : blackQueen), row, 3, board);
+        SpawnPiece((isWhite? whiteKing : blackKing), row, 4, board);
 
-        SpawnPiece((isWhite? whiteBishop : blackBishop), row, 5);
-        SpawnPiece((isWhite? whiteKnight : blackKnight), row, 6);
-        SpawnPiece((isWhite? whiteRook : blackRook), row, 7);
+        SpawnPiece((isWhite? whiteBishop : blackBishop), row, 5, board);
+        SpawnPiece((isWhite? whiteKnight : blackKnight), row, 6, board);
+        SpawnPiece((isWhite? whiteRook : blackRook), row, 7, board);
   }
 
-  private void SpawnPiece(GameObject prefab, int row, int col)
+  private void SpawnPiece(GameObject prefab, int row, int col, BoardModel board)
   {
     RectTransform cellRt = GetCellRect(row, col);
 
