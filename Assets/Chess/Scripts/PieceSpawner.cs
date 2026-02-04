@@ -83,6 +83,8 @@ private const int BoardSize = 8;
     RectTransform pieceRt = piece.GetComponent<RectTransform>();
 
     pieceRt.SetParent(cellRt, false);
+
+    board.SetPiece(row, col, piece);
   
     // Centers in cell
     pieceRt.anchorMin = new Vector2(0.5f, 0.5f);
