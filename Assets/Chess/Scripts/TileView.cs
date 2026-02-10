@@ -7,6 +7,7 @@ public class TileView : MonoBehaviour, IPointerClickHandler
     public int Col {get; private set;}
 
     [SerializeField] private Image highlightImage;
+    [SerializeField] private Image moveHighlightImage;
     private GameController controller;
     private void Awake()
     {
@@ -18,7 +19,15 @@ public class TileView : MonoBehaviour, IPointerClickHandler
                 highlightImage = t.GetComponent<Image>();
             }
         }
-        SetHighlight(false);
+        if (moveHighlightImage == null)
+        {
+            Transform t = transform.Find("MoveHighlight");
+            if (t != null)
+            {
+                moveHighlightImage = t.GetComponent<highlightImage>();
+            }
+        }
+        ClearAllHighlights();
     }
 
     public void Init(int row, int col, GameController gameController)
@@ -26,7 +35,9 @@ public class TileView : MonoBehaviour, IPointerClickHandler
         Row = row;
         Col = col;
         controller = gameController;
-        ClearHighlight();
+
+        controller.RegisterTile(this);
+        ClearAllHighlights();
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -50,11 +61,23 @@ public class TileView : MonoBehaviour, IPointerClickHandler
         }
     }
 
-    public void ClearHighlight()
+    public void SetMoveHighlight(bool on)
+    {
+        if (moveHighlightImage != null)
+        {
+            moveHighlightImage.enabled = on;
+        }
+    }
+
+    public void ClearAllHighlights()
     {
         if (highlightImage != null)
         {
             highlightImage.enabled = false;
+        }
+        if (moveHighlightImage != null)
+        {
+            moveHighlightImage.enabled = false;
         }
     }
 
