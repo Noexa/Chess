@@ -14,6 +14,13 @@ public class BoardModel
         return squares[row, col];
     }
 
+    public void MovePiece(int fromRow, int fromCol, int toRow, int toCol)
+    {
+        GameObject piece = GetPiece(fromRow, fromCol);
+        SetPiece(toRow, toCol, piece);
+        SetPiece(fromRow, fromCol, null);
+    }
+
     public bool IsOccupied(int row, int col)
     {
         return squares[row, col] != null;
