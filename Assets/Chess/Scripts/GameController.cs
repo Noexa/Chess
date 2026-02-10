@@ -4,8 +4,13 @@ public class GameController : MonoBehaviour
 {
     [SerializeField] private PieceSpawner pieceSpawner;
     private BoardModel board;
+    private readonly TileView[,] tiles = new TileView[8, 8];
 
     private TileView _selectedTile;
+    public void RegisterTile(TileView tile)
+    {
+        tiles[tile.Row, tile.Col] = tile;
+    }
 
     public void OnTileClick(TileView tile)
     {

@@ -24,7 +24,7 @@ public class TileView : MonoBehaviour, IPointerClickHandler
             Transform t = transform.Find("MoveHighlight");
             if (t != null)
             {
-                moveHighlightImage = t.GetComponent<highlightImage>();
+                moveHighlightImage = t.GetComponent<Image>();
             }
         }
         ClearAllHighlights();

@@ -19,7 +19,7 @@ public class BoardModel
         return squares[row, col] != null;
     }
 
-    public bool IsInbounds(int row, int col)
+    public bool IsInBounds(int row, int col)
     {
         return (row >=0 && row <8 && col >=0 && col <8);
     }
