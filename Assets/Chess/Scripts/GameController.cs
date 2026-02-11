@@ -55,6 +55,7 @@ public class GameController : MonoBehaviour
     {
         _board.MovePiece(piece.Row, piece.Col, destination.Row, destination.Col);
         piece.SetGridPos(destination.Row, destination.Col);
+        piece.transform.position = destination.transform.position;
     }
 
     private void ClearSelection()

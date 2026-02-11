@@ -8,7 +8,7 @@ public class PieceSpawner : MonoBehaviour
   
   [Range(0.6f, 1.2f)]
   [SerializeField] private float pieceScale = 0.90f;
-
+  
   [Header("White Pieces")]
   [SerializeField] private GameObject whiteRook;
   [SerializeField] private GameObject whiteKnight;
@@ -103,6 +103,7 @@ private const int BoardSize = 8;
     // Assign board-state
     PieceView view = piece.GetComponent<PieceView>();
     Debug.Assert(view != null, "Piece prefab is missing PieceView component");
+
     view.Init(row, col);
   }
 
@@ -111,5 +112,4 @@ private const int BoardSize = 8;
     int index = (row * BoardSize) + col;
     return (RectTransform)gridRoot.GetChild(index); //GetChild returns a transform so a rect transform cast is needed
   }
-
 }

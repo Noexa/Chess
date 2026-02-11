@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 public enum PieceType
 {
     Pawn,
@@ -11,7 +12,7 @@ public enum PieceType
 public class PieceView : MonoBehaviour
 {
     [SerializeField] private PieceType type;
-    [SerializeField] private bool isWhite;
+     private bool isWhite;
 
     public PieceType Type => type;
     public bool IsWhite => isWhite;
@@ -24,7 +25,6 @@ public class PieceView : MonoBehaviour
         Row = row;
         Col = col;
     }
-
     public void SetGridPos(int row, int col)
     {
         Row = row;
