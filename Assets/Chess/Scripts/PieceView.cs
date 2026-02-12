@@ -15,15 +15,16 @@ public class PieceView : MonoBehaviour
      private bool isWhite;
 
     public PieceType Type => type;
-    public bool IsWhite => isWhite;
+    public bool IsWhite {get; private set;}
 
     public int Row {get; private set;}
     public int Col {get; private set;}
 
-    public void Init(int row, int col)
+    public void Init(int row, int col, bool isWhite)
     {
         Row = row;
         Col = col;
+        IsWhite = isWhite;
     }
     public void SetGridPos(int row, int col)
     {

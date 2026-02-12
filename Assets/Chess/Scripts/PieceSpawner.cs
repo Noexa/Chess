@@ -8,7 +8,7 @@ public class PieceSpawner : MonoBehaviour
   
   [Range(0.6f, 1.2f)]
   [SerializeField] private float pieceScale = 0.90f;
-  
+
   [Header("White Pieces")]
   [SerializeField] private GameObject whiteRook;
   [SerializeField] private GameObject whiteKnight;
@@ -57,25 +57,23 @@ private const int BoardSize = 8;
   {
     for (int col = 0; col < BoardSize; col++)
     {
-        SpawnPiece((isWhite? whitePawn : blackPawn), row, col, board);
+      SpawnPiece(GetPrefab(isWhite, whitePawn, blackPawn), row, col, isWhite, board);
     }
   }
 
   private void SpawnBackrow(int row, bool isWhite, BoardModel board)
-  {
-        SpawnPiece((isWhite? whiteRook : blackRook), row, 0, board);
-        SpawnPiece((isWhite? whiteKnight : blackKnight), row, 1, board);
-        SpawnPiece((isWhite? whiteBishop : blackBishop), row, 2, board);
+    {
+        SpawnPiece(GetPrefab(isWhite, whiteRook,   blackRook),   row, 0, isWhite, board);
+        SpawnPiece(GetPrefab(isWhite, whiteKnight, blackKnight), row, 1, isWhite, board);
+        SpawnPiece(GetPrefab(isWhite, whiteBishop, blackBishop), row, 2, isWhite, board);
+        SpawnPiece(GetPrefab(isWhite, whiteQueen,  blackQueen),  row, 3, isWhite, board);
+        SpawnPiece(GetPrefab(isWhite, whiteKing,   blackKing),   row, 4, isWhite, board);
+        SpawnPiece(GetPrefab(isWhite, whiteBishop, blackBishop), row, 5, isWhite, board);
+        SpawnPiece(GetPrefab(isWhite, whiteKnight, blackKnight), row, 6, isWhite, board);
+        SpawnPiece(GetPrefab(isWhite, whiteRook,   blackRook),   row, 7, isWhite, board);
+    }
 
-        SpawnPiece((isWhite? whiteQueen : blackQueen), row, 3, board);
-        SpawnPiece((isWhite? whiteKing : blackKing), row, 4, board);
-
-        SpawnPiece((isWhite? whiteBishop : blackBishop), row, 5, board);
-        SpawnPiece((isWhite? whiteKnight : blackKnight), row, 6, board);
-        SpawnPiece((isWhite? whiteRook : blackRook), row, 7, board);
-  }
-
-  private void SpawnPiece(GameObject prefab, int row, int col, BoardModel board)
+  private void SpawnPiece(GameObject prefab, int row, int col, bool isWhite, BoardModel board)
   {
     RectTransform cellRt = GetCellRect(row, col);
 
@@ -104,12 +102,17 @@ private const int BoardSize = 8;
     PieceView view = piece.GetComponent<PieceView>();
     Debug.Assert(view != null, "Piece prefab is missing PieceView component");
 
-    view.Init(row, col);
+    view.Init(row, col, isWhite);
   }
 
   private RectTransform GetCellRect(int row, int col)
   {
     int index = (row * BoardSize) + col;
     return (RectTransform)gridRoot.GetChild(index); //GetChild returns a transform so a rect transform cast is needed
+  }
+
+  private GameObject GetPrefab(bool isWhite, GameObject whitePrefab, GameObject blackPrefab)
+  {
+    return isWhite ? whitePrefab : blackPrefab;
   }
 }
