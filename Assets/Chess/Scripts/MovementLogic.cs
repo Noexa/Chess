@@ -128,8 +128,20 @@ public class MovementLogic
     private void AddPawnMoves(BoardModel board, PieceView piece, int row, int col, List<Vector2Int> moves)
     {
         int dir = piece.IsWhite ? 1 : -1;
-
+        int startRow = piece.IsWhite ? 1 : 6;
         int frontRow = row + dir;
+
+        // Initial double move
+        if (row == startRow)
+        {
+            int doubleRow = row + (dir * 2);
+            if (board.IsInBounds(doubleRow, col) && !board.IsOccupied(frontRow, col) && !board.IsOccupied(doubleRow, col))
+            {
+                moves.Add(new Vector2Int(doubleRow, col));
+            }
+        }
+
+        // Standard move
         if (board.IsInBounds(frontRow, col) && !board.IsOccupied(frontRow, col))
         {
             moves.Add(new Vector2Int(frontRow, col));
@@ -138,7 +150,7 @@ public class MovementLogic
         TryAddCapture(board, piece, row + dir, col - 1, moves);
         TryAddCapture(board, piece, row + dir, col + 1, moves);
 
-        //FIXME double move on 1st, promotion, en passant
+        //FIXME promotion, en passant
     }
     private void AddKnightMoves(BoardModel board, PieceView piece, int row, int col, List<Vector2Int> moves)
     {

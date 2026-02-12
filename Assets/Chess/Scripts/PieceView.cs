@@ -27,7 +27,6 @@ public class PieceView : MonoBehaviour
         IsWhite = isWhite;
 
         Image img = GetComponentInChildren<Image>();
-        Debug.Log($"Piece at ({row},{col}) isWhite={isWhite}, Image color={img?.color}");
     }
     public void SetGridPos(int row, int col)
     {
