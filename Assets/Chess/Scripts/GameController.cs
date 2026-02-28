@@ -5,6 +5,7 @@ public class GameController : MonoBehaviour
 {
     [SerializeField] private PieceSpawner pieceSpawner;
     private BoardModel _board;
+    private bool _whiteTurn = true;
     private MovementLogic _movementLogic;
     private readonly TileView[,] tiles = new TileView[8, 8];
 
@@ -38,7 +39,12 @@ public class GameController : MonoBehaviour
         GameObject pieceGo = _board.GetPiece(tile.Row, tile.Col);
         if (pieceGo != null)
         {
-            _selectedPiece = pieceGo.GetComponent<PieceView>();
+            PieceView candidate = pieceGo.GetComponent<PieceView>();
+            if (candidate.IsWhite != _whiteTurn)
+            {
+                return;
+            }
+            _selectedPiece = candidate;
             _selectedTile = tile;
             _selectedTile.SetHighlight(true);
 
@@ -86,6 +92,7 @@ public class GameController : MonoBehaviour
             piece.SetGridPos(toRow, toCol);
             piece.transform.position = destination.transform.position;
         }
+        _whiteTurn = !_whiteTurn;
     }
 
     private void ClearSelection()
