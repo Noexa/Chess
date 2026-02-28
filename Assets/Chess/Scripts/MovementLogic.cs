@@ -27,7 +27,7 @@ public class MovementLogic
     {
         new(1,1), new(-1,-1), new(1,-1), new(-1,1)
     };
-    public List<Vector2Int> GetValidMoves(BoardModel board, PieceView piece)
+    public List<Vector2Int> GetValidMoves(BoardModel board, PieceView piece, bool includeCastling = true)
     {
         List<Vector2Int> moves = new List<Vector2Int>();
         int row = piece.Row;
@@ -51,7 +51,11 @@ public class MovementLogic
                 AddQueenMoves(board, piece, row, col, moves);
                 break;
             case PieceType.King:
-                AddKingMoves(board, piece, row, col, moves);
+                AddKingMoves(board, piece, row, col, moves, includeCastling);
+                if (includeCastling)
+                {
+                    AddCastleMoves(board, piece, row, col, moves);
+                }
                 break;
         }
         return moves;
@@ -179,13 +183,18 @@ public class MovementLogic
         AddBishopMoves(board, piece, row, col, moves);
         AddRookMoves(board, piece, row, col, moves);
     }
-    private void AddKingMoves(BoardModel board, PieceView piece, int row, int col, List<Vector2Int> moves)
+    private void AddKingMoves(BoardModel board, PieceView piece, int row, int col, List<Vector2Int> moves, bool includeCastling)
     {
         foreach (var offset in KingOffsets)
         {
             TryAddStep(board, piece, row + offset.x, col + offset.y, moves);
         }  
-        AddCastleMoves(board, piece, row, col, moves);
+
+        if (includeCastling)
+        {
+            AddCastleMoves(board, piece, row, col, moves);
+
+        }
     }
 
     private void AddCastleMoves(BoardModel board, PieceView king, int row, int col, List<Vector2Int> moves)
@@ -207,27 +216,87 @@ public class MovementLogic
         TryAddCastle(board, king, homeRow, rookCol: 0, throughCol: 3, destCol: 2, moves: moves, extraEmptyCol: 1);
     }
 
-    private void TryAddCastle
-        (   BoardModel board,
-            PieceView king,
-            int homeRow,
-            int rookCol,
-            int throughCol,
-            int destCol,
-            List<Vector2Int> moves,
-            int extraEmptyCol = -1 ) // CASE: castle requires 1 more square to move past queen
+    private void TryAddCastle(
+        BoardModel board,
+        PieceView king,
+        int homeRow,
+        int rookCol,
+        int throughCol,
+        int destCol,
+        List<Vector2Int> moves,
+        int extraEmptyCol = -1) // -1 = Queen-sided castling,  1 = King-sided
+    {
+        GameObject rookGo = board.GetPiece(homeRow, rookCol);
+        if (rookGo == null)
+        {
+            Debug.Log("Castle blocked: No rook found");
+            return;
+        }
+
+        PieceView rook = rookGo.GetComponent<PieceView>();
+        bool invalidRook = rook == null ||
+            rook.Type != PieceType.Rook ||
+            rook.IsWhite != king.IsWhite ||
+            rook.HasMoved;
+
+        if (invalidRook)
+        {
+            Debug.Log("Castle blocked: Rook invalid or has moved");
+            return;
+        }
+
+        bool pathBlocked =
+            board.IsOccupied(homeRow, throughCol) ||
+            board.IsOccupied(homeRow, destCol) ||
+            (extraEmptyCol != -1 && board.IsOccupied(homeRow, extraEmptyCol));
+
+        if (pathBlocked)
+        {
+            return;
+        }
+
+        bool kingInCheck = IsSquareAttacked(board, homeRow, 4, !king.IsWhite);
+
+        bool throughCheck = IsSquareAttacked(board, homeRow, throughCol, !king.IsWhite);
+
+        bool landInCheck = IsSquareAttacked(board, homeRow, destCol, !king.IsWhite);
+
+        if (kingInCheck || throughCheck || landInCheck)
+        {
+            Debug.Log("Castle blocked: King would pass through or land in check");
+            return;
+        }
+
+        moves.Add(new Vector2Int(homeRow, destCol));
+    }
+    public bool IsSquareAttacked(BoardModel board, int row, int col, bool byWhite)
+    {
+        Vector2Int target = new Vector2Int(row, col);
+        for (int r = 0; r < 8; r++)
+        {
+            for (int c = 0; c < 8; c++)
             {
-                GameObject rookGo = board.GetPiece(homeRow, rookCol);
-                if (rookGo == null) return;
+                GameObject go = board.GetPiece(r,c);
+                if (go == null) continue;
 
-                PieceView rook = rookGo.GetComponent<PieceView>();
-                if (rook == null || rook.Type != PieceType.Rook || rook.IsWhite != king.IsWhite || rook.HasMoved) return;
-                
-                if (board.IsOccupied(homeRow, throughCol) || board.IsOccupied(homeRow, destCol)) return;
+                PieceView piece = go.GetComponent<PieceView>();
+                if (piece == null || piece.IsWhite != byWhite) continue;
 
-                if (extraEmptyCol != -1 && board.IsOccupied(homeRow, extraEmptyCol)) return;
-
-                moves.Add(new Vector2Int(homeRow, destCol));
+                List<Vector2Int> moves =GetValidMoves(board, piece, includeCastling : false);
+                if (moves.Contains(target)) return true;
             }
-
+        }
+        return false;
+    }
+    public bool IsInCheck(BoardModel board, bool isWhite)
+    {
+        PieceView king = board.GetKing(isWhite);
+        if (king == null)
+        {
+            return false;
+        }
+        return IsSquareAttacked(board, king.Row, king.Col, !isWhite);
+    }
 }
+
+

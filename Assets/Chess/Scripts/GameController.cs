@@ -42,7 +42,7 @@ public class GameController : MonoBehaviour
             _selectedTile = tile;
             _selectedTile.SetHighlight(true);
 
-            _validMoves = _movementLogic.GetValidMoves(_board, _selectedPiece);
+            _validMoves = _movementLogic.GetValidMoves(_board, _selectedPiece, includeCastling : true);
             foreach (var move in _validMoves)
             {
                 tiles[move.x, move.y].SetHighlight(true);

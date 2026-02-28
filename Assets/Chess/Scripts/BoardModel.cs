@@ -2,7 +2,22 @@ using UnityEngine;
 
 public class BoardModel
 {
+    private PieceView _whiteKing;
+    private PieceView _blackKing;
     private GameObject[,] squares = new GameObject[8,8];
+
+    public void RegisterKing(PieceView king)
+    {
+        if (king.IsWhite)
+            _whiteKing = king;
+        else
+            _blackKing = king;
+    }
+
+    public PieceView GetKing(bool isWhite)
+    {
+        return isWhite ? _whiteKing : _blackKing;
+    }
 
     public void SetPiece(int row, int col, GameObject piece)
     {
@@ -16,8 +31,26 @@ public class BoardModel
 
     public void MovePiece(int fromRow, int fromCol, int toRow, int toCol)
     {
-        GameObject piece = GetPiece(fromRow, fromCol);
-        SetPiece(toRow, toCol, piece);
+        GameObject moverGo = GetPiece(fromRow, fromCol);
+        GameObject targetGo = GetPiece(toRow, toCol);
+
+        if (targetGo != null)
+        {
+            PieceView mover = moverGo.GetComponent<PieceView>();
+            PieceView target = targetGo.GetComponent<PieceView>();
+
+            if (mover.IsWhite != target.IsWhite)
+            {
+                if (target.Type == PieceType.King)
+                {
+                    Debug.Log($"{(target.IsWhite ? "White" : "Black")} King captured. Game Over.");
+                }
+                Object.Destroy(targetGo);
+                SetPiece(toRow, toCol, null);
+            }
+        }
+
+        SetPiece(toRow, toCol, moverGo);
         SetPiece(fromRow, fromCol, null);
     }
 
