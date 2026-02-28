@@ -21,6 +21,17 @@ public class BoardModel
         SetPiece(fromRow, fromCol, null);
     }
 
+    public  bool IsCastlingMove(PieceView piece, int fromRow, int fromCol, int toRow, int toCol)
+    {
+        bool isCastle = false;
+        if (piece != null && piece.Type == PieceType.King)
+        {
+            int deltaCol = toCol -fromCol;
+            isCastle = (fromRow == toRow && (deltaCol == 2 || deltaCol == -2));
+        }
+        return isCastle;
+    }
+
     public bool IsOccupied(int row, int col)
     {
         return squares[row, col] != null;

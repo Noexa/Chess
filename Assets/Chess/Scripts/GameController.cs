@@ -22,8 +22,7 @@ public class GameController : MonoBehaviour
         // Deselects if selecting current tile
         if (_selectedTile == tile)
         {
-            _selectedTile.SetHighlight(false);
-            _selectedTile = null;
+            ClearSelection();
             return;
         }
 
@@ -53,9 +52,40 @@ public class GameController : MonoBehaviour
 
     private void ExecuteMove(PieceView piece, TileView destination)
     {
-        _board.MovePiece(piece.Row, piece.Col, destination.Row, destination.Col);
-        piece.SetGridPos(destination.Row, destination.Col);
-        piece.transform.position = destination.transform.position;
+        int fromRow = piece.Row;
+        int fromCol = piece.Col;
+        int toRow = destination.Row;
+        int toCol = destination.Col;
+
+        bool isCastle = _board.IsCastlingMove(piece, fromRow, fromCol, toRow, toCol);
+
+        if (isCastle)
+        {
+            //FIXME need to implement logic from future ticket to ensure all tiles are not in/through/or would cause a check
+
+            int rookFromCol = (toCol > fromCol) ? 7 : 0;
+            int rookToCol = (toCol > fromCol) ? (toCol - 1) : (toCol + 1);
+
+            GameObject rookGo = _board.GetPiece(fromRow, rookFromCol);
+
+            // Move king
+            _board.MovePiece(fromRow, fromCol, toRow, toCol);
+            piece.SetGridPos(toRow, toCol);
+            piece.transform.position = destination.transform.position;
+
+            // Move rook
+            _board.MovePiece(fromRow, rookFromCol, fromRow, rookToCol);
+            PieceView rook = rookGo.GetComponent<PieceView>();
+            TileView rookDestTile = tiles[fromRow, rookToCol];
+            rook.SetGridPos(fromRow, rookToCol);
+            rook.transform.position = rookDestTile.transform.position;
+        }
+        else
+        {
+            _board.MovePiece(fromRow, fromCol, toRow, toCol);
+            piece.SetGridPos(toRow, toCol);
+            piece.transform.position = destination.transform.position;
+        }
     }
 
     private void ClearSelection()

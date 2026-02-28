@@ -15,16 +15,18 @@ public class PieceView : MonoBehaviour
      private bool isWhite;
 
     public PieceType Type => type;
-    public bool IsWhite {get; private set;}
+    public bool IsWhite { get; private set; }
+    public bool HasMoved { get; private set; }
 
-    public int Row {get; private set;}
-    public int Col {get; private set;}
+    public int Row { get; private set; }
+    public int Col { get; private set; }
 
     public void Init(int row, int col, bool isWhite)
     {
         Row = row;
         Col = col;
         IsWhite = isWhite;
+        HasMoved = false;
 
         Image img = GetComponentInChildren<Image>();
     }
@@ -32,5 +34,6 @@ public class PieceView : MonoBehaviour
     {
         Row = row;
         Col = col;
+        HasMoved = true;
     }
 }

@@ -185,6 +185,49 @@ public class MovementLogic
         {
             TryAddStep(board, piece, row + offset.x, col + offset.y, moves);
         }  
+        AddCastleMoves(board, piece, row, col, moves);
     }
+
+    private void AddCastleMoves(BoardModel board, PieceView king, int row, int col, List<Vector2Int> moves)
+    {
+        if (king == null || king.Type  != PieceType.King || king.HasMoved)
+        {
+            return;
+        }
+
+        int homeRow = king.IsWhite ? 0 : 7;
+        if (row != homeRow || col != 4)
+        {
+            return;
+        }
+
+        //FIXME need to implement logic from future ticket to ensure all tiles are not in/through/or would cause a check
+
+        TryAddCastle(board, king, homeRow, rookCol: 7, throughCol: 5, destCol: 6, moves: moves, extraEmptyCol: -1);
+        TryAddCastle(board, king, homeRow, rookCol: 0, throughCol: 3, destCol: 2, moves: moves, extraEmptyCol: 1);
+    }
+
+    private void TryAddCastle
+        (   BoardModel board,
+            PieceView king,
+            int homeRow,
+            int rookCol,
+            int throughCol,
+            int destCol,
+            List<Vector2Int> moves,
+            int extraEmptyCol = -1 ) // CASE: castle requires 1 more square to move past queen
+            {
+                GameObject rookGo = board.GetPiece(homeRow, rookCol);
+                if (rookGo == null) return;
+
+                PieceView rook = rookGo.GetComponent<PieceView>();
+                if (rook == null || rook.Type != PieceType.Rook || rook.IsWhite != king.IsWhite || rook.HasMoved) return;
+                
+                if (board.IsOccupied(homeRow, throughCol) || board.IsOccupied(homeRow, destCol)) return;
+
+                if (extraEmptyCol != -1 && board.IsOccupied(homeRow, extraEmptyCol)) return;
+
+                moves.Add(new Vector2Int(homeRow, destCol));
+            }
 
 }
