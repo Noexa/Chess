@@ -4,6 +4,7 @@ using System.Collections.Generic;
 public class GameController : MonoBehaviour
 {
     [SerializeField] private PieceSpawner pieceSpawner;
+    [SerializeField] private UIMessagePopup messagePopup;
     private BoardModel _board;
     private bool _whiteTurn = true;
     private MovementLogic _movementLogic;
@@ -49,6 +50,11 @@ public class GameController : MonoBehaviour
             _selectedTile.SetHighlight(true);
 
             _validMoves = _movementLogic.GetValidMoves(_board, _selectedPiece, includeCastling : true);
+
+            if (!string.IsNullOrEmpty(_movementLogic.LastMessage))
+            {
+                messagePopup.Show(_movementLogic.LastMessage);
+            }
             foreach (var move in _validMoves)
             {
                 tiles[move.x, move.y].SetHighlight(true);
@@ -63,12 +69,21 @@ public class GameController : MonoBehaviour
         int toRow = destination.Row;
         int toCol = destination.Col;
 
+        GameObject targetGo = _board.GetPiece(toRow, toCol);
+        if (targetGo != null)
+        {
+            PieceView target = targetGo.GetComponent<PieceView>();
+            if (target != null && target.Type == PieceType.King && target.IsWhite != piece.IsWhite)
+            {
+                messagePopup.Show($"{(piece.IsWhite ? "White" : "Black")} wins! King captured.");
+                //FIXME end game
+            }
+        }
+
         bool isCastle = _board.IsCastlingMove(piece, fromRow, fromCol, toRow, toCol);
 
         if (isCastle)
         {
-            //FIXME need to implement logic from future ticket to ensure all tiles are not in/through/or would cause a check
-
             int rookFromCol = (toCol > fromCol) ? 7 : 0;
             int rookToCol = (toCol > fromCol) ? (toCol - 1) : (toCol + 1);
 
@@ -86,7 +101,7 @@ public class GameController : MonoBehaviour
             rook.SetGridPos(fromRow, rookToCol);
             rook.transform.position = rookDestTile.transform.position;
         }
-        else
+        else // NORMAL MOVE
         {
             _board.MovePiece(fromRow, fromCol, toRow, toCol);
             piece.SetGridPos(toRow, toCol);

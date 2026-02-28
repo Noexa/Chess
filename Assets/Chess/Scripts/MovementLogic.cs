@@ -3,6 +3,12 @@ using UnityEngine;
 
 public class MovementLogic
 {
+    public string LastMessage { get; private set; }
+
+    private void SetMessage(string msg)
+    {
+        LastMessage = msg;
+    }
     private static readonly Vector2Int[] KnightOffsets = 
     {
         new( 2, 1), new( 2, -1),
@@ -29,6 +35,8 @@ public class MovementLogic
     };
     public List<Vector2Int> GetValidMoves(BoardModel board, PieceView piece, bool includeCastling = true)
     {
+        LastMessage = null;
+
         List<Vector2Int> moves = new List<Vector2Int>();
         int row = piece.Row;
         int col = piece.Col;
@@ -120,6 +128,8 @@ public class MovementLogic
             }
         }
     }
+
+    // AddCapture used for special capture movement. AddStep is the primary driver
     public void TryAddCapture(BoardModel board, PieceView piece, int row, int col, List<Vector2Int> moves)
     {
         if (board.IsInBounds(row,col) && board.IsOccupied(row, col) && IsEnemy(board, piece, row, col))
@@ -193,7 +203,6 @@ public class MovementLogic
         if (includeCastling)
         {
             AddCastleMoves(board, piece, row, col, moves);
-
         }
     }
 
@@ -209,8 +218,6 @@ public class MovementLogic
         {
             return;
         }
-
-        //FIXME need to implement logic from future ticket to ensure all tiles are not in/through/or would cause a check
 
         TryAddCastle(board, king, homeRow, rookCol: 7, throughCol: 5, destCol: 6, moves: moves, extraEmptyCol: -1);
         TryAddCastle(board, king, homeRow, rookCol: 0, throughCol: 3, destCol: 2, moves: moves, extraEmptyCol: 1);
@@ -229,7 +236,7 @@ public class MovementLogic
         GameObject rookGo = board.GetPiece(homeRow, rookCol);
         if (rookGo == null)
         {
-            Debug.Log("Castle blocked: No rook found");
+            SetMessage("Castle blocked: No rook found");
             return;
         }
 
@@ -241,7 +248,7 @@ public class MovementLogic
 
         if (invalidRook)
         {
-            Debug.Log("Castle blocked: Rook invalid or has moved");
+            SetMessage("Castle blocked: Rook invalid or has moved");
             return;
         }
 
@@ -263,7 +270,7 @@ public class MovementLogic
 
         if (kingInCheck || throughCheck || landInCheck)
         {
-            Debug.Log("Castle blocked: King would pass through or land in check");
+            SetMessage("Castle blocked: King would pass through or land in check");
             return;
         }
 

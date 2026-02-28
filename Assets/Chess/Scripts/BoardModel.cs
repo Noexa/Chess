@@ -41,10 +41,6 @@ public class BoardModel
 
             if (mover.IsWhite != target.IsWhite)
             {
-                if (target.Type == PieceType.King)
-                {
-                    Debug.Log($"{(target.IsWhite ? "White" : "Black")} King captured. Game Over.");
-                }
                 Object.Destroy(targetGo);
                 SetPiece(toRow, toCol, null);
             }
