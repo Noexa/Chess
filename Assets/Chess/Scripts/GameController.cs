@@ -83,7 +83,7 @@ public class GameController : MonoBehaviour
             PieceView target = targetGo.GetComponent<PieceView>();
             if (target != null && target.Type == PieceType.King && target.IsWhite != piece.IsWhite)
             {
-                messagePopup.Show($"{(piece.IsWhite ? "White" : "Black")} wins! King captured.");
+                messagePopup.Show($"Game over! {(piece.IsWhite ? "White" : "Black")} wins! King captured.");
                 _gameOver = true;
             }
         }
@@ -145,7 +145,6 @@ public class GameController : MonoBehaviour
         _promoIsWhite = isWhite;
 
         promotionUI.Show();
-        messagePopup.Show("Choose Promotion: Q / R / B / N");
     }
 
     private void OnPromotionPicked(PieceType type)
