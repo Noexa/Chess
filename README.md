@@ -24,6 +24,23 @@ A chess game built in Unity (UI-based board) with core rules implemented in C#.
 - Click a highlighted square to move
 - Promotion: choose Q/R/B/N from the popup
 
+## Gameplay
+### Move Highlighting
+![Move Highlight](Documents/gifs/Cell_Highlighting.gif)
+
+### Castling
+![Castle 1](Documents/gifs/King_castle_1.gif)
+![Castle 2](Documents/gifs/King_castle_2.gif)
+
+### Pawn Promotion
+![Promotion](Documents/gifs/Pawn_Promo.gif)
+
+### En Passant
+![En Passant](Documents/gifs/En_Passant.gif)
+
+### Forfeit & Restart
+![Forfeit & Restart](Documents/gifs/Forfeit_Restart.gif)
+
 ## Architecture (High level)
 - `BoardModel`: stores board state + special move state (castling/en passant) + king references
 - `MovementLogic`: generates valid moves + check/castle constraints
