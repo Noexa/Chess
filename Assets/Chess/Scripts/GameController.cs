@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class GameController : MonoBehaviour
     private bool _whiteTurn = true;
     private MovementLogic _movementLogic;
     private readonly TileView[,] tiles = new TileView[8, 8];
+    private bool _gameOver = false;
 
     private TileView _selectedTile;
     private PieceView _selectedPiece;
@@ -20,6 +22,7 @@ public class GameController : MonoBehaviour
 
     public void OnTileClick(TileView tile)
     {
+        if (_gameOver) return;
 
         // Deselects if selecting current tile
         if (_selectedTile == tile)
@@ -124,6 +127,19 @@ public class GameController : MonoBehaviour
         _selectedTile = null;
         _selectedPiece = null;
         _validMoves.Clear();
+    }
+    public void Forfeit()
+    {
+        if (_gameOver) return;
+
+        string winner = _whiteTurn ? "Black" : "White";
+        messagePopup.Show($"{winner} wins by forfeit!");
+        _gameOver = true;
+    }
+
+    public void Restart()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     void Awake()
