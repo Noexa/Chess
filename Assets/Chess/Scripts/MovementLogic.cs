@@ -161,10 +161,29 @@ public class MovementLogic
             moves.Add(new Vector2Int(frontRow, col));
         }
 
+        // En passant
+        if (board.TryGetEnPassant(out int epRow, out int epCol))
+        {
+            bool isDiagToEp = (epRow == row + dir) && (Mathf.Abs(epCol - col) == 1);
+            if (isDiagToEp && !board.IsOccupied(epRow, epCol))
+            {
+                int capturedRow = row;
+                int capturedCol = epCol;
+
+                GameObject capturedGo = board.GetPiece(capturedRow, capturedCol);
+                if (capturedGo != null)
+                {
+                    PieceView captured = capturedGo.GetComponent<PieceView>();
+                    if (captured != null && captured.Type == PieceType.Pawn && captured.IsWhite != piece.IsWhite)
+                    {
+                        moves.Add(new Vector2Int(epRow, epCol));
+                    }
+                }
+            }
+        }
+
         TryAddCapture(board, piece, row + dir, col - 1, moves);
         TryAddCapture(board, piece, row + dir, col + 1, moves);
-
-        //FIXME promotion, en passant
     }
     private void AddKnightMoves(BoardModel board, PieceView piece, int row, int col, List<Vector2Int> moves)
     {

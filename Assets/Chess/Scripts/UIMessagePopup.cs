@@ -33,6 +33,12 @@ public class UIMessagePopup : MonoBehaviour
 
     private void Awake()
     {
-        panel.SetActive(false);
+        if (panel == null) Debug.LogError("UIMessagePopup: panel not assigned");
+        if (messageText == null) Debug.LogError("UIMessagePopup: messageText not assigned");
+
+        if (panel != null)
+        {
+            //panel.SetActive(false);
+        }
     }
 }

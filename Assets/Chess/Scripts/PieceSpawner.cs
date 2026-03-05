@@ -103,6 +103,22 @@ private const int BoardSize = 8;
     Debug.Assert(view != null, "Piece prefab is missing PieceView component");
 
     view.Init(row, col, isWhite);
+
+    if (view.Type == PieceType.King)
+    {
+      board.RegisterKing(view);
+    }
+  }
+
+  public void SpawnPromotedPiece(int row, int col, bool isWhite, PieceType type, BoardModel board)
+  {
+    GameObject prefab =
+      (type == PieceType.Queen) ? GetPrefab(isWhite, whiteQueen, blackQueen):
+      (type == PieceType.Rook) ? GetPrefab(isWhite, whiteRook, blackRook):
+      (type == PieceType.Bishop) ? GetPrefab(isWhite, whiteBishop, blackBishop):
+      GetPrefab(isWhite, whiteKnight, blackKnight);
+
+      SpawnPiece(prefab, row, col, isWhite, board);
   }
 
   private RectTransform GetCellRect(int row, int col)

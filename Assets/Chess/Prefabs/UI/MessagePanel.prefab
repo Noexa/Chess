@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8118539936047739910}
   - component: {fileID: 2367229550446608078}
   - component: {fileID: 5650232391696410403}
-  - component: {fileID: 9072457443081915781}
+  - component: {fileID: 339814301488053739}
   m_Layer: 5
   m_Name: MessagePanel
   m_TagString: Untagged
@@ -78,7 +78,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &9072457443081915781
+--- !u!114 &339814301488053739
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -92,7 +92,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UIMessagePopup
   panel: {fileID: 8635944148101868415}
   messageText: {fileID: 2666911705285117069}
-  seconds: 7
+  seconds: 2
 --- !u!1 &8635944148101868415
 GameObject:
   m_ObjectHideFlags: 0

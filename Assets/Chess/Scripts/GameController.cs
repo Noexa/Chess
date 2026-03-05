@@ -6,6 +6,11 @@ public class GameController : MonoBehaviour
 {
     [SerializeField] private PieceSpawner pieceSpawner;
     [SerializeField] private UIMessagePopup messagePopup;
+    [SerializeField] private PromotionUI promotionUI;
+    private bool _awaitingPromotion;
+    private int _promoRow;
+    private int _promoCol;
+    private bool _promoIsWhite;
     private BoardModel _board;
     private bool _whiteTurn = true;
     private MovementLogic _movementLogic;
@@ -22,7 +27,7 @@ public class GameController : MonoBehaviour
 
     public void OnTileClick(TileView tile)
     {
-        if (_gameOver) return;
+        if (_gameOver || _awaitingPromotion) return;
 
         // Deselects if selecting current tile
         if (_selectedTile == tile)
@@ -79,7 +84,7 @@ public class GameController : MonoBehaviour
             if (target != null && target.Type == PieceType.King && target.IsWhite != piece.IsWhite)
             {
                 messagePopup.Show($"{(piece.IsWhite ? "White" : "Black")} wins! King captured.");
-                //FIXME end game
+                _gameOver = true;
             }
         }
 
@@ -104,29 +109,115 @@ public class GameController : MonoBehaviour
             rook.SetGridPos(fromRow, rookToCol);
             rook.transform.position = rookDestTile.transform.position;
         }
-        else // NORMAL MOVE
+        else
         {
+            // En passant
+            bool isEnPassant = IsEnPassantMove(piece, fromRow, fromCol, toRow, toCol);
+            if (isEnPassant)
+            {
+                ExecuteEnPassantCapture(fromRow, toCol);
+            }
+            // Normal move
             _board.MovePiece(fromRow, fromCol, toRow, toCol);
             piece.SetGridPos(toRow, toCol);
             piece.transform.position = destination.transform.position;
+
+            // Pawn Promotion
+            if (piece.Type == PieceType.Pawn)
+            {
+                int promoRow = piece.IsWhite ? 7 : 0;
+                if (toRow == promoRow)
+                {
+                    BeginPromotion(toRow, toCol, piece.IsWhite);
+                    return;
+                }
+            }
         }
+        UpdateEnPassantState(piece, fromRow, fromCol, toRow);
         _whiteTurn = !_whiteTurn;
     }
 
+    private void BeginPromotion(int row, int col, bool isWhite)
+    {
+        _awaitingPromotion = true;
+        _promoRow = row;
+        _promoCol = col;
+        _promoIsWhite = isWhite;
+
+        promotionUI.Show();
+        messagePopup.Show("Choose Promotion: Q / R / B / N");
+    }
+
+    private void OnPromotionPicked(PieceType type)
+    {
+        promotionUI.Hide();
+
+        GameObject pawnGo = _board.GetPiece(_promoRow, _promoCol);
+        if (pawnGo != null)
+        {
+            _board.ClearSquare(_promoRow, _promoCol);
+            Destroy(pawnGo);
+        }
+
+        pieceSpawner.SpawnPromotedPiece(_promoRow, _promoCol, _promoIsWhite, type, _board);
+
+        _awaitingPromotion = false;
+        _whiteTurn = !_whiteTurn;
+    }
+
+    private bool IsEnPassantMove(PieceView pawn, int fromRow, int fromCol, int toRow, int toCol)
+    {
+        if (pawn.Type != PieceType.Pawn) return false;
+
+        if (!_board.TryGetEnPassant(out int epRow, out int epCol)) return false;
+
+        bool isEpTarget = (toRow == epRow && toCol == epCol);
+        bool isDiagonalStep = Mathf.Abs(toCol - fromCol) == 1;
+
+        return isEpTarget && isDiagonalStep && !_board.IsOccupied(toRow, toCol);
+    }
+
+    private void ExecuteEnPassantCapture(int fromRow, int fromCol)
+    {
+        int capturedRow = fromRow;
+        int capturedCol = fromCol;
+
+        GameObject capturedGo = _board.GetPiece(capturedRow, capturedCol);
+        if (capturedGo != null)
+        {
+            _board.ClearSquare(capturedRow, capturedCol);
+            Destroy(capturedGo);
+        }
+    }
+
+    private void UpdateEnPassantState(PieceView piece, int fromRow, int fromCol, int toRow)
+    {
+        _board.ClearEnPassant();
+        if (piece.Type == PieceType.Pawn && Mathf.Abs(toRow - fromRow) == 2 )
+        {
+            int midRow = (fromRow + toRow ) / 2;
+            _board.SetEnPassant(midRow, fromCol);
+        }
+    }
     private void ClearSelection()
     {
         if (_selectedTile != null)
         {
             _selectedTile.SetHighlight(false);
         }
-        foreach (var move in _validMoves)
+        if (_validMoves != null)
         {
-            tiles[move.x, move.y].SetHighlight(false);
+            foreach (var move in _validMoves)
+            {
+                if (tiles[move.x, move.y] != null)
+                {
+                    tiles[move.x, move.y].SetHighlight(false);
+                }
+            }
+            _validMoves.Clear();
         }
-
         _selectedTile = null;
         _selectedPiece = null;
-        _validMoves.Clear();
     }
     public void Forfeit()
     {
@@ -152,5 +243,6 @@ public class GameController : MonoBehaviour
     void Start()
     {
         StartCoroutine(pieceSpawner.SpawnRoutine(_board));
-    }
+        promotionUI.OnPick = OnPromotionPicked;
+    }   
 }

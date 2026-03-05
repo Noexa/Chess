@@ -5,6 +5,28 @@ public class BoardModel
     private PieceView _whiteKing;
     private PieceView _blackKing;
     private GameObject[,] squares = new GameObject[8,8];
+    private bool _hasEnPassant;
+    private int _enPassantRow;
+    private int _enPassantCol;
+
+    public void ClearEnPassant()
+    {
+        _hasEnPassant = false;
+    }
+
+    public void SetEnPassant(int row, int col)
+    {
+        _hasEnPassant = true;
+        _enPassantRow = row;
+        _enPassantCol = col;
+    }
+
+    public bool TryGetEnPassant(out int row, out int col)
+    {
+        row = _enPassantRow;
+        col = _enPassantCol;
+        return _hasEnPassant;
+    }
 
     public void RegisterKing(PieceView king)
     {
@@ -41,8 +63,8 @@ public class BoardModel
 
             if (mover.IsWhite != target.IsWhite)
             {
-                Object.Destroy(targetGo);
                 SetPiece(toRow, toCol, null);
+                Object.Destroy(targetGo);
             }
         }
 
