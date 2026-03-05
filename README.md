@@ -26,20 +26,30 @@ A chess game built in Unity (UI-based board) with core rules implemented in C#.
 
 ## Gameplay
 ### Move Highlighting
-![Move Highlight](Documents/gifs/Cell_Highlighting.gif)
+<p align="center">
+  <img src="Documents/gifs/Cell_Highlighting.gif" width="500">
+</p>
 
 ### Castling
-![Castle 1](Documents/gifs/King_castle_1.gif)
-![Castle 2](Documents/gifs/King_castle_2.gif)
+<p align="center">
+  <img src="Documents/gifs/King_castle_1.gif" width="450">
+  <img src="Documents/gifs/King_castle_2.gif" width="450">
+</p>
 
 ### Pawn Promotion
-![Promotion](Documents/gifs/Pawn_Promo.gif)
+<p align="center">
+  <img src="Documents/gifs/Pawn_Promo.gif" width="500">
+</p>
 
 ### En Passant
-![En Passant](Documents/gifs/En_Passant.gif)
+<p align="center">
+  <img src="Documents/gifs/En_Passant.gif" width="500">
+</p>
 
 ### Forfeit & Restart
-![Forfeit & Restart](Documents/gifs/Forfeit_Restart.gif)
+<p align="center">
+  <img src="Documents/gifs/Forfeit_Restart.gif" width="500">
+</p>
 
 ## Architecture (High level)
 - `BoardModel`: stores board state + special move state (castling/en passant) + king references
