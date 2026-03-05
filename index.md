@@ -1,30 +1,66 @@
 # Unity Chess
 
-A fully playable chess game built in Unity
+![Unity](https://img.shields.io/badge/Engine-Unity-000000?logo=unity)
+![C#](https://img.shields.io/badge/Language-C%23-blue)
+![Status](https://img.shields.io/badge/Project-Complete-brightgreen)
 
-## Features
-- Legal movement system
-- Castling
+A UI-based chess implementation built in **Unity using C#**.
+
+The project focuses on implementing the core chess rules and separating
+game state, rule validation, and UI systems.
+
+---
+
+# Gameplay
+
+## Move Highlighting
+
+<p align="center">
+<img src="Documents/gifs/Cell_Highlighting.gif" width="500">
+</p>
+
+## Castling
+
+<p align="center">
+<img src="Documents/gifs/King_castle_1.gif" width="450">
+<img src="Documents/gifs/King_castle_2.gif" width="450">
+</p>
+
+## Pawn Promotion
+
+<p align="center">
+<img src="Documents/gifs/Pawn_Promo.gif" width="500">
+</p>
+
+## En Passant
+
+<p align="center">
+<img src="Documents/gifs/En_Passant.gif" width="500">
+</p>
+
+## Forfeit & Restart
+
+<p align="center">
+<img src="Documents/gifs/Forfeit_Restart.gif" width="500">
+</p>
+
+---
+
+# Features
+
+- Piece movement and captures
+- Castling (blocked if moving through check)
 - En passant
-- Pawn promotion UI
+- Pawn promotion UI (Q/R/B/N)
 - Move highlighting
-- Forfeit + restart
+- Message popup system
+- Forfeit and restart functionality
 
-## Architecture
-The project separates gameplay logic from UI
+---
 
-Core systems:
-- BoardModel – board state and special rules
-- MovementLogic – validates moves
-- GameController – player input and game flow
-- PieceSpawner – spawns UI pieces
+# Running the Project
 
-## How to Run
-1. Open project in Unity (version: 6000.3.2f1)
-2. Open `Assets/Chess/Scenes/Main.unity`
-3. Press Play
+### From Source
 
-## Future Improvements
-- Checkmate / stalemate detection
-- Save / load / undo
-- AI opponent
+1. Open in **Unity 6000.3.2f1**
+2. Open scene:
