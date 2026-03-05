@@ -16,7 +16,7 @@ A chess game built in Unity (UI-based board) with core rules implemented in C#.
 
 ## How to Run
 1. Open the project in Unity (Last developed with version: 6000.3.2f1)
-2. Open scene: Assets/Scenes/Main.unity
+2. Open scene: Assets/Chess/Scenes/Main.unity
 3. Press Play
 
 ## Controls
